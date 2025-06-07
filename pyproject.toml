@@ -1,0 +1,7 @@
+[project]
+name = "dayoff"
+version = "0.1.0"
+description = "Dayoff is a package that helps companies manage time off"
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = []
