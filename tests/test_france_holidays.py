@@ -104,6 +104,12 @@ class TestFridayBeforeEasterFranceHolidays(unittest.TestCase):
                 type=HolidayType.PUBLIC,
             ),
         )
+    def test_get_holidays_contains_friday_before_easter(self):
+        fh = FranceHolidays(2023, "67")
+        easter_day = fh.calculate_easter()
+        expected = fh.calculate_friday_before_easter(easter_day)
+        self.assertIn(expected, fh.get_holidays())
+
 
 class TestPentecostFranceHolidays(unittest.TestCase):
     def test_pentecost_2023(self):
@@ -153,3 +159,7 @@ class TestFranceHolidaysList(unittest.TestCase):
             Holiday(name=HolidayName.VENDREDI_SAINT, date=date(2023, 4, 7), type=HolidayType.PUBLIC),
         ]
         self.assertEqual(fh.get_holidays(), expected)
+
+
+
+
