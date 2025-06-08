@@ -91,3 +91,65 @@ class TestAlsaceMoselleAdditionalHolidays(unittest.TestCase):
             ),
             holidays,
         )
+
+
+class TestFridayBeforeEasterFranceHolidays(unittest.TestCase):
+    def test_friday_before_easter_2023(self):
+        easter_day = date(2023, 4, 9)
+        self.assertEqual(
+            FranceHolidays(2023).calculate_friday_before_easter(easter_day),
+            Holiday(
+                name=HolidayName.VENDREDI_SAINT,
+                date=date(2023, 4, 7),
+                type=HolidayType.PUBLIC,
+            ),
+        )
+
+class TestPentecostFranceHolidays(unittest.TestCase):
+    def test_pentecost_2023(self):
+        easter_day = date(2023, 4, 9)
+        self.assertEqual(
+            FranceHolidays(2023).calculate_pentecost(easter_day),
+            Holiday(
+                name=HolidayName.PENTECOST,
+                date=date(2023, 5, 29),
+                type=HolidayType.PUBLIC,
+            ),
+        )
+
+class TestAbolitionSlaveryMappingFranceHolidays(unittest.TestCase):
+    def test_map_all_departments(self):
+        expected = {
+            "971": date(2023, 5, 27),
+            "972": date(2023, 5, 22),
+            "973": date(2023, 6, 10),
+            "974": date(2023, 12, 20),
+            "976": date(2023, 4, 27),
+            "977": date(2023, 10, 9),
+            "978": date(2023, 5, 27),
+        }
+        for dep, dt in expected.items():
+            with self.subTest(dep=dep):
+                self.assertEqual(
+                    FranceHolidays(2023, dep).map_abolition_slavery(),
+                    Holiday(name=HolidayName.ABOLITION_SLAVERY, date=dt, type=HolidayType.PUBLIC),
+                )
+
+class TestFranceHolidaysList(unittest.TestCase):
+    def test_get_holidays_2023_department_67(self):
+        fh = FranceHolidays(2023, "67")
+        easter = fh.calculate_easter()
+        expected = [
+            Holiday(name=HolidayName.NEW_YEAR, date=date(2023, 1, 1), type=HolidayType.PUBLIC),
+            Holiday(name=HolidayName.LABOR_DAY, date=date(2023, 5, 1), type=HolidayType.PUBLIC),
+            Holiday(name=HolidayName.CHRISTMAS, date=date(2023, 12, 25), type=HolidayType.PUBLIC),
+            Holiday(name=HolidayName.NATIONAL_DAY, date=date(2023, 7, 14), type=HolidayType.PUBLIC),
+            Holiday(name=HolidayName.ARMISTICE, date=date(2023, 11, 11), type=HolidayType.PUBLIC),
+            Holiday(name=HolidayName.ASSUMPTION, date=date(2023, 8, 15), type=HolidayType.PUBLIC),
+            fh.calculate_easter_monday(easter),
+            fh.calculate_ascension(easter),
+            fh.calculate_pentecost(easter),
+            Holiday(name=HolidayName.SAINT_ETIENNE, date=date(2023, 12, 26), type=HolidayType.PUBLIC),
+            Holiday(name=HolidayName.VENDREDI_SAINT, date=date(2023, 4, 7), type=HolidayType.PUBLIC),
+        ]
+        self.assertEqual(fh.get_holidays(), expected)
