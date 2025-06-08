@@ -69,3 +69,25 @@ class TestAssumptionFranceHolidays(unittest.TestCase):
             date=date(2000, 6, 1),
             type=HolidayType.PUBLIC,
         ))
+
+
+class TestAlsaceMoselleAdditionalHolidays(unittest.TestCase):
+
+    def test_department_68_includes_good_friday_and_st_etienne(self):
+        holidays = FranceHolidays(2023, "68").get_holidays()
+        self.assertIn(
+            Holiday(
+                name=HolidayName.VENDREDI_SAINT,
+                date=date(2023, 4, 7),
+                type=HolidayType.PUBLIC,
+            ),
+            holidays,
+        )
+        self.assertIn(
+            Holiday(
+                name=HolidayName.SAINT_ETIENNE,
+                date=date(2023, 12, 26),
+                type=HolidayType.PUBLIC,
+            ),
+            holidays,
+        )

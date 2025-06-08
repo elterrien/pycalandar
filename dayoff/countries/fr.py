@@ -106,7 +106,7 @@ class FranceHolidays:
                     self.calculate_easter_monday(easter_day),
                     self.calculate_ascension(easter_day),
                     self.calculate_pentecost(easter_day),]
-        if self.department in ["57", "67"]:
+        if self.department in ["57", "67", "68"]:
             holidays.append(Holiday(name=HolidayName.SAINT_ETIENNE, date=date(self.year, 12, 26), type=HolidayType.PUBLIC))
             holidays.append(
                 Holiday(name=HolidayName.VENDREDI_SAINT, date=self.calculate_friday_before_easter(easter_day).date, type=HolidayType.PUBLIC)
